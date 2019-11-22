@@ -3,6 +3,7 @@ layout: post
 title: A post with script
 ---
 
+This is some text for the post
 
 <canvas id="gc" width="450" height="450"></canvas>
 <br>
@@ -17,4 +18,4 @@ title: A post with script
 <br>
 <input type="range" min="0" max="9" value="0" class="slider" id="board">
 
-<script src="{{ base.url | prepend: site.url }}/assets/fractals.js"></script>
+<script src="{{ base.url | prepend: site.url }}/assets/js/fractals.js"></script>
