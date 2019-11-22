@@ -18,4 +18,4 @@ This is some text for the post
 <br>
 <input type="range" min="0" max="9" value="0" class="slider" id="board">
 
-<script src="/lastchance/assets/js/fractals.js"></script>
+<script src="/lastchance/assets/js/tolo.js"></script>
