@@ -22,9 +22,9 @@ layout: default
         </h3>
         <p>
           {{post.minidesc}}
-        </p>
          {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         <span class="post-meta">{{ post.date | date: date_format }}</span>
+        </p>
         {%- if site.show_excerpts -%}
           {{ post.excerpt }}
         {%- endif -%}
