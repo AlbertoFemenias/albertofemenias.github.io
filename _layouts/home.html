@@ -12,7 +12,7 @@ layout: default
   {%- if site.posts.size > 0 -%}
     <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
     <ul class="post-list">
-      {%- for post in site.posts -%}
+      {%- for post in paginator.posts -%}
       <li>
         <h3>
           <img src="assets/thumbnails/{{post.thumbnail}}" style="float: left; margin-right:15px;" height="100" width="100" border="1"/>
