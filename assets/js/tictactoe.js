@@ -33,8 +33,8 @@
       cc.fillStyle = 'red';
 
 
-      x=evt.clientX-parseInt(c.offsetLeft, 10);
-      y=evt.clientY-parseInt(c.offsetTop, 10);
+      x=evt.pageX-parseInt(c.offsetLeft, 10);
+      y=evt.pageY-parseInt(c.offsetTop, 10);
       /*Debugging
       cc.fillStyle = 'white';
       cc.font = '15px Arial';
