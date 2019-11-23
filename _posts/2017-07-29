@@ -1,0 +1,15 @@
+---
+layout: post
+title: Pong
+minidesc: The first video game of all time is a great way to start
+thumbnail: icon_pong.png
+---
+
+This is my very first JavaScript project, I remade the famous Pong in 100 lines of pure JS.
+
+Instructions:
+Move your mouse up and down to locate your paddle, If you wish to restart the game, simply refresh this webpage with F5
+
+<canvas id="gc" width="640" height="480"></canvas>
+<script src="pong.js"></script>
+
