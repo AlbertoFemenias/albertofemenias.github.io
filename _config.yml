@@ -7,8 +7,8 @@ linkedin:
 github_username: 
 
 header_pages:
- - about.md
  - misc.md
+ - about.md
 
 # Build settings
 markdown: kramdown
