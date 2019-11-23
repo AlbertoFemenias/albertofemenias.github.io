@@ -1,4 +1,4 @@
-var array = [[],[],[]];
+var array = [[],[],[],[],[]];
 var colors = ['#C0392B','#E74C3C','#9B59B6','#8E44AD','#2980B9','#3498DB','#1ABC9C','#27AE60','#16A085','#F4D03F','#F39C12','#E67E22','#D35400','#BDC3C7','#95A5A6','#2C3E50'];
 var c;
 var cc;
@@ -31,6 +31,9 @@ function generateIcon (palabra) {
   cc.fillStyle = 'white';
   cc.fillRect(0, 0, 200, 200);
 
+  if (!palabra) 
+    palabra = "Albert"
+
   hasheado = hash(palabra);
 
   var bitarray = [];
@@ -39,7 +42,7 @@ function generateIcon (palabra) {
     bitarray[i] = (hasheado >> i) & 1;
   }
 
-  for (var j = 0; j < 3; j++){
+  for (var j = 0; j < 5; j++){
     for (var i = 0; i < 5; i++) {
       array[j][i] = bitarray[(4*i)+j];
     }
@@ -47,7 +50,11 @@ function generateIcon (palabra) {
 
   color = colors[hasheado % (colors.length-1)]
 
-  iconPaintRow(array, color);
+  if (document.getElementById("myCheck").checked){
+    iconPaintQuad(array, color);
+  }else{
+    iconPaintRow(array, color);
+  }
   
   /* cc.fillStyle = 'black';
   cc.font = '10px Arial';
@@ -74,6 +81,43 @@ function hash(s) {
     return String(a);
 };
 
+function iconPaintQuad( array, color) {
+
+  cc.fillStyle = color;
+  
+  for(var j = 0; j < 5; j++){
+    for (var i = 0; i < 5; i++) {
+      if (array[i][j])
+        cc.fillRect(20*j, i*20, 20, 20);
+    }
+  }
+
+
+  for(var j = 0; j < 5; j++){
+    for (var i = 0; i < 5; i++) {
+      if (array[i][j])
+        cc.fillRect(180-20*j, i*20, 20, 20);
+    }
+  }
+
+  for(var j = 0; j < 5; j++){
+    for (var i = 0; i < 5; i++) {
+      if (array[i][j])
+        cc.fillRect(20*j, 180-i*20, 20, 20);
+    }
+  }
+
+
+  for(var j = 0; j < 5; j++){
+    for (var i = 0; i < 5; i++) {
+      if (array[i][j])
+        cc.fillRect(180-20*j, 180-i*20, 20, 20);
+    }
+  }
+
+   
+
+}
 
 function iconPaintRow( array, color) {
 
