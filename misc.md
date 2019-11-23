@@ -1,4 +1,4 @@
 ---
-layout: misc
+layout: home
 title: Miscellaneous
 ---
