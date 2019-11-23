@@ -13,6 +13,6 @@ pure JavaScript.
 <div align="center">
 
 <canvas id="gc" width="450" height="450"></canvas>
-<script src="tictactoe.js"></script>
+<script src="/assets/js/tictactoe.js"></script>
 
 </div>
