@@ -15,7 +15,7 @@ layout: default
       {%- for post in paginator.posts -%}
       <li>
         <h3>
-          <img src="assets/thumbnails/{{post.thumbnail}}" style="float: left; margin-right:15px;" height="100" width="100" border="1"/>
+          <img src="/assets/thumbnails/{{post.thumbnail}}" style="float: left; margin-right:15px;" height="100" width="100" border="1"/>
           <a class="post-link" href="{{ post.url | relative_url }}">
             {{ post.title | escape }}
           </a>
