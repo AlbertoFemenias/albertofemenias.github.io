@@ -10,3 +10,6 @@ github_username:
 markdown: kramdown
 theme: minima
 paginate: 3
+
+gems:
+- jekyll-paginate
