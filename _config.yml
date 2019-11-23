@@ -4,7 +4,11 @@ author: https://github.com/AlbertoFemenias
 email: 
 description: This is a simple website built with Jekyll and Github Pages where I upload some small projects I have done in my spare time. Enjoy!
 linkedin: 
-github_username:  
+github_username: 
+
+header_pages:
+ - about.md
+ - misc.md
 
 # Build settings
 markdown: kramdown
