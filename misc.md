@@ -1,4 +1,4 @@
 ---
 layout: misc
-title: Miscellaneous
+title: Misc
 ---
