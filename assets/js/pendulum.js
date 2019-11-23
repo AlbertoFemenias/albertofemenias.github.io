@@ -7,7 +7,7 @@
         cc = c.getContext('2d');
         cc.font = '40px Arial';
         setInterval(update, 10);
-        mySound = new sound("bounce.mp3");
+        mySound = new sound("/assets/sounds/bounce.mp3");
         mySound.play();
       }
 
