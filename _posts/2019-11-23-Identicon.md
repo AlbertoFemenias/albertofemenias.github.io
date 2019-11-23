@@ -21,6 +21,6 @@ in .png with the "download" button.
 <br><br>
 <button onclick="generateRandom()">Random</button>
 <input type="text" id="inputText" value="Albert" oninput="generateFromWord()">
-<input type="checkbox" id="myCheck" oninput="generateFromWord()">HighRes
+<input type="checkbox" id="myCheck" oninput="generateFromWord()" checked><small>HighRes</small>
 <button onclick="download_image()">Download</button>
 </div>
