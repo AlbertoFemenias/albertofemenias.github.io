@@ -1,0 +1,40 @@
+---
+layout: default
+---
+
+<div class="games">
+  {%- if page.title -%}
+    <h1 class="page-title">Games</h1>
+  {%- endif -%}
+
+  {{ content }}
+
+
+  <ul class="post-list">
+  {% for post in site.posts %}
+   {% if post.tags contains "Game" %}
+    <li>
+        <h3>
+          <img src="/assets/thumbnails/{{post.thumbnail}}" style="float: left; margin-right:15px;" height="100" width="100" border="1"/>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        <p>
+          {{post.minidesc}}
+          <br>
+          {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+          <span class="post-meta">{{ post.date | date: date_format }}</span>
+        </p>
+        {%- if site.show_excerpts -%}
+          {{ post.excerpt }}
+        {%- endif -%}
+      </li>
+      <br>
+    {%- endif -%}
+   {%- endfor -%}
+   </ul>
+   {% include prev_next.html prev_url=paginator.previous_page_path prev_text='Previous page' next_url=paginator.next_page_path next_text='Next page' %}
+
+  
+</div>
