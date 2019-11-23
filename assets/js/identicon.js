@@ -144,7 +144,7 @@ function download_image(){
   var canvas = document.getElementById("mcanvas");
   image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   var link = document.createElement('a');
-  link.download = "identicon.png";
+  link.download = document.getElementById("inputText").value+"_identicon.png";
   link.href = image;
   link.click();
 }
