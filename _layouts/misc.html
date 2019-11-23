@@ -13,7 +13,7 @@ layout: default
     <br>
     <ul class="post-list">
       {% for post in posts %}
-        {% if post.tags contains Misc %}
+       
           <li>
             <h3>
               <img src="/assets/thumbnails/{{post.thumbnail}}" style="float: left; margin-right:15px;" height="100" width="100" border="1"/>
@@ -32,7 +32,7 @@ layout: default
             {%- endif -%}
           </li>
           <br>
-        {% endif %}
+  
       {%- endfor -%}
     </ul>
     {% include prev_next.html prev_url=paginator.previous_page_path prev_text='Previous page' next_url=paginator.next_page_path next_text='Next page' %}
