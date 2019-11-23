@@ -3,9 +3,7 @@ layout: default
 ---
 
 <div class="misc">
-  {%- if page.title -%}
-    <h1 class="page-title">Miscellaneous</h1>
-  {%- endif -%}
+    <h2 class="post-title">All games</h2>
 
   {{ content }}
 
@@ -34,7 +32,5 @@ layout: default
     {%- endif -%}
    {%- endfor -%}
    </ul>
-   {% include prev_next.html prev_url=paginator.previous_page_path prev_text='Previous page' next_url=paginator.next_page_path next_text='Next page' %}
-
   
 </div>
