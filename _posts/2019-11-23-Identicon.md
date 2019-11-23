@@ -2,7 +2,7 @@
 layout: post
 title: Identicon
 minidesc: Write a word and get your own icon
-thumbnail: icon_identicon.png
+thumbnail: icon_identicon.jpg
 tags: [Misc, Hash, Downloadable, Icon generator]
 ---
 
