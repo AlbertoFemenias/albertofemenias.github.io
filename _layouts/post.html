@@ -3,7 +3,7 @@ layout: default
 ---
 
 <style type="text/css" media="screen">
-  .post-tag {
+  .tag {
     background: gainsboro;
     padding: 0 .5rem;
     margin-right: .5rem;
@@ -28,7 +28,7 @@ layout: default
       </time>
       {% if page.tags %} | now the tags
       {% for tag in page.tags %}
-       {{ tag }}
+       <span class="tag"> {{ tag }} </span>
       {% endfor %}
       {% endif %}
     </p>
