@@ -12,11 +12,12 @@ layout: default
 
   <ul>
   {% for post in posts %}
-    {% if post.tags contains "Misc" %}
+   
     <li>
       <a href="{{ post.url }}">{{ post.title }}</a>
       <span class="date">{{ post.date | date: "%B %-d, %Y"  }}</span>
     </li>
+    {% if post.tags contains "Misc" %}
     {% endif %}
   {% endfor %}
   </ul>
