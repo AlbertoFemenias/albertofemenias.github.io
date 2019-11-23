@@ -158,8 +158,8 @@
 
 
         var soundEffects = {
-        dead: new sound("gameover.mp3"),
-        jumps: [new sound("jump.wav"), new sound("jump.wav"), new sound("jump.wav"), new sound("jump.wav")],
+        dead: new sound("/assets/sounds/gameover.mp3"),
+        jumps: [new sound("/assets/sounds/jump.wav"), new sound("/assets/sounds/jump.wav"), new sound("/assets/sounds/jump.wav"), new sound("/assets/sounds/jump.wav")],
         njumps: 0,
 
         jumpPlay: function (){
