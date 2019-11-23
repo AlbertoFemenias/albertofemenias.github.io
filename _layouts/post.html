@@ -2,6 +2,8 @@
 layout: default
 ---
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style type="text/css" media="screen">
   .tag {
     background: gainsboro;
@@ -12,13 +14,6 @@ layout: default
     font-size: 90%;
   }
   .tag:before {
-   font-family: FontAwesome !important;
-   content: "\f095";
-   display: inline-block;
-   padding-right: 3px;
-   vertical-align: middle;
-  }
-  lol {
     content: "\f02b";
     font-family: FontAwesome;
     padding-right: .5em;
@@ -57,4 +52,3 @@ layout: default
 
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
 </article>
- <div class="post-tag"> {{ tag }} </div>
