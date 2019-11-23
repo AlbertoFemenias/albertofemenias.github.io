@@ -10,9 +10,9 @@ layout: default
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         {{ page.date | date: date_format }}
       </time>
-      {% if page.tags %} | tags exist
+      {% if page.tags %} | 
       {% for tag in page.tags %}
-        {{ tag }}
+        &nbsp; `{{ tag }}`
       {% endfor %}
       {% endif %}
       {%- if page.author -%}
