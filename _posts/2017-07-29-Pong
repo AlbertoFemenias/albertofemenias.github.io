@@ -11,5 +11,5 @@ Instructions:
 Move your mouse up and down to locate your paddle, If you wish to restart the game, simply refresh this webpage with F5
 
 <canvas id="gc" width="640" height="480"></canvas>
-<script src="pong.js"></script>
+<script src="/assets/js/pong.js"></script>
 
