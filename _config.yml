@@ -1,10 +1,10 @@
 # basic options
 title: Alberto's web
-author: 2017 - 2020
+author: https://github.com/AlbertoFemenias
 email: 
 description: This is a simple website built with Jekyll and Github Pages where I upload some small projects I have done in my spare time. Enjoy!
-linkedin: alberto-femenías-hermida-56787ba2
-github_username:  AlbertoFemenias
+linkedin: 
+github_username:  
 
 # Build settings
 markdown: kramdown
