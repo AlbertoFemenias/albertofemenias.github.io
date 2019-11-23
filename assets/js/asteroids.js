@@ -15,9 +15,9 @@
 
 
     var soundEffects = {
-        ship: new sound("ship.mp3"),
-        laserSounds: [new sound("laser.mp3"), new sound("laser.mp3"), new sound("laser.mp3"), new sound("laser.mp3")],
-        asteroidSounds: [new sound("asteroid.mp3"), new sound("asteroid.mp3"), new sound("asteroid.mp3"), new sound("asteroid.mp3")],
+        ship: new sound("/assets/sounds/ship.mp3"),
+        laserSounds: [new sound("/assets/sounds/laser.mp3"), new sound("/assets/sounds/laser.mp3"), new sound("/assets/sounds/laser.mp3"), new sound("/assets/sounds/laser.mp3")],
+        asteroidSounds: [new sound("/assets/sounds/asteroid.mp3"), new sound("/assets/sounds/asteroid.mp3"), new sound("/assets/sounds/asteroid.mp3"), new sound("/assets/sounds/asteroid.mp3")],
         nlasers: 0,
         nasteroids: 0,
 
