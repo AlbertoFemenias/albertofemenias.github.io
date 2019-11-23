@@ -3,6 +3,7 @@ layout: post
 title: Tic tac toe
 minidesc: A 2 player tic tac toe, choose wisely an you will always tie.
 thumbnail: icon_tictactoe.gif
+tags: [Game, 2p, Tie, Vector graphics]
 ---
 
 It started out as a tree search AI vs human version, but as the artificial intelligence never lets you win 
