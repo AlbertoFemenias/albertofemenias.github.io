@@ -11,8 +11,9 @@ This is a small script that generates an icon from the hash of the input word.
 
 **Instructions:** Just write your name and look what happens.
 You can get a cool icon by clicking a bunch of times the "random" button. When you have the one you like, you can download it 
-in .png with the "download" button
+in .png with the "download" button.
 
+<br>
 <script src="/assets/js/identicon.js"> </script>  
 
 <div align="center">
