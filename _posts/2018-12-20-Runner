@@ -1,0 +1,13 @@
+---
+layout: post
+title: Runner
+minidesc: My own version of the typical runner game
+thumbnail: icon_runner.jpg
+---
+
+Work in progress
+
+<div align="center">
+<canvas id="gc" width="610" height="256"></canvas>
+
+<script src="/assets/js/runner.js"></script>
