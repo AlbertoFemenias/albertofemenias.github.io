@@ -1,4 +1,4 @@
-c = document.getElementById('gc');
+
 	centerY = c.height/2;
 	centerX = c.width/2;
 	var length = 5;
@@ -10,6 +10,7 @@ c = document.getElementById('gc');
 
 
 	window.onload = ()=> {
+		c = document.getElementById('gc');
 		cc = c.getContext('2d');
 		cc.font = '20px Arial';
 		setInterval(update, 10); //10 miliseconds is the minimum
