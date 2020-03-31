@@ -22,8 +22,6 @@ By tweaking the slider you can end up with very different and cool results.
 <input type="range" min="1" max="50" value="10" class="Sspeed" id="Sspeed">
 <br>
 <br>
-<form>
-  <input type="radio" name="color" id="colourfull">Color
-  <input type="radio" name="color" id="white" checked>White
-</form>
+<input type="checkbox" id="myCheck" oninput="generateFromWord()" checked>Rainbow
+
 </div>
