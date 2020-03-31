@@ -1,6 +1,5 @@
 
-	centerY = c.height/2;
-	centerX = c.width/2;
+
 	var length = 5;
 	var amp = 10;
 	var speed = 1;
@@ -14,8 +13,10 @@
 		cc = c.getContext('2d');
 		cc.font = '20px Arial';
 		setInterval(update, 10); //10 miliseconds is the minimum
+		centerY = c.height/2;
+		centerX = c.width/2;
 	}
-
+	var SstarL = document.getElementById("SstarL");
 	SstarL.oninput = function() {
 		length = Number(this.value);
 	}
