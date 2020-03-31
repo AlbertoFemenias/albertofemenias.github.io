@@ -6,8 +6,9 @@ thumbnail: icon_spacetravel.png
 tags: [Misc, Animation, Wallpaper, Artistic]
 ---
 
-There is no better distraction these quarantine days than stare to my new and awesome Space Travel Animation.
+There is no better distraction these quarantine days than to stare at my awesome Space Travel Animation.
 By tweaking the slider you can end up with very different and cool results.
+
 **Instructions:** You can add colors, change speed, zoom, length and number of stars. Enjoy!
 
 <br> 
