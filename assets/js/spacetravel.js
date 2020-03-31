@@ -77,7 +77,7 @@
 
 		draw : function() {
 			for (var i=0; i < this.visible; i++) {
-				if (rainbow){
+				if (document.getElementById("myCheck").checked){
 	            	this.stars[i].draw(colours[i % colours.length]);
 				}else{
 					this.stars[i].draw('white');
