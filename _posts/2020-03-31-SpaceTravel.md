@@ -7,9 +7,9 @@ tags: [Misc, Animation, Wallpaper, Artistic]
 ---
 
 There is no better distraction these quarantine days than to stare at my awesome Space Travel Animation.
-By tweaking the slider you can end up with very different and cool results.
+By tweaking the sliders you can end up with very different results.
 
-**Instructions:** You can add colors, change speed, zoom, length and number of stars. Enjoy!
+**Instructions:** Use the inputs below to add colors, change speed, zoom, length and number of stars. Enjoy!
 
 <br> 
 
