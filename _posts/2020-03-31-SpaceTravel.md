@@ -2,7 +2,7 @@
 layout: post
 title: Space Travel Animation
 minidesc: Awesome animation that you can tweak
-thumbnail: icon_spacetravel.jpg
+thumbnail: icon_spacetravel.png
 tags: [Misc, Animation, Wallpaper, Artistic]
 ---
 
