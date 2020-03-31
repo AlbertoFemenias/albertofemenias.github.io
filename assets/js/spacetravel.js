@@ -16,22 +16,7 @@
 		centerY = c.height/2;
 		centerX = c.width/2;
 	}
-	var SstarL = document.getElementById("SstarL");
-	SstarL.oninput = function() {
-		length = Number(this.value);
-	}
-	Szoom.oninput = function() {
-		amp = Number(this.value);
-	}
-	Sspeed.oninput = function() {
-		speed = Number(this.value)/10;
-	}
-	colourfull.oninput = function() {
-		rainbow = true;
-	}
-	white.oninput = function() {
-		rainbow = false;
-	}
+	
 
 
 
@@ -45,6 +30,7 @@
 		y2 = Math.sin(angleA)*(radius+segment)*Math.sin(angleB);
 		cc.strokeStyle = colour;
 		cc.beginPath();
+		amp = Number(Szoom.value);
 		cc.moveTo(centerX + x1*amp, centerY + y1*amp);
 		cc.lineTo(centerX + x2*amp, centerY + y2*amp);
 		cc.stroke();
@@ -80,7 +66,7 @@
 
 	var Galaxy = {
 		n: 2000,
-		visible: 500,
+		visible: Number(SstarL.value),
 		stars: [],
 
 		initialize: function(){
@@ -101,7 +87,7 @@
 
 		update : function() {
 			for (var i=0; i < this.n; i++) {
-	            this.stars[i].update(speed);
+	            this.stars[i].update(Number(Sspeed.value)/10);
 	        }
 		}
 	};
@@ -109,9 +95,6 @@
 
 	Galaxy.initialize();
 	
-	nstars.oninput = function() {
-		Galaxy.visible = this.value;
-	}
 
 
 	function update() {
