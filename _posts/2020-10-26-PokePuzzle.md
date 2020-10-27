@@ -2,7 +2,7 @@
 layout: post
 title: Pokepuzzle generator
 minidesc: Random generated puzzles to solve
-thumbnail: icon_pokepuzzle.jpg
+thumbnail: icon_pokepuzzle.png
 tags: [Games, Puzzle, Pokemon, Playable, Algorithm]
 ---
 
@@ -16,6 +16,7 @@ very easy for me.
 
 After wasting some time with this crappy puzzles I decided that I would make a puzzle generator that would satisfy my 
 need for difficult puzzles.
+
 
 **Instructions:** Click EASY button to generate easy puzzles or HARD button for difficult ones. Use the arrow keys to 
 move the player around the map, when all tiles have been stepped on you have won. 
