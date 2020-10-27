@@ -56,6 +56,13 @@
     document.addEventListener('keydown',keyPush);
   }
 
+  //THIS FUNCTIONS PREVENTS SCROLLING THE WEBPAGE WHILE PLAYING WITH THE ARROWKEYS
+	window.addEventListener("keydown", function(e) {
+	    // space and arrow keys
+	    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+		e.preventDefault();
+	    }
+	}, false);
 
   function keyPush(evt) {
     switch(evt.keyCode){
