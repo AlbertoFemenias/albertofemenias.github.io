@@ -7,6 +7,8 @@ window.onload = ()=> {
     c.addEventListener('contextmenu', rightClick); 
 
     c.addEventListener('click', leftClick);
+
+    game.newGame()
     
     /*c.addEventListener('contextmenu', function(e) {  
       e.preventDefault();
@@ -25,12 +27,12 @@ function movemouse(evt){
 }
 
 function leftClick(){
-  return board.uncoverCell();
+  return playboard.uncoverCell();
 }
 
 function rightClick(evt){
   evt.preventDefault();
-  return board.flagCell();
+  return playboard.flagCell();
 }
 
 
@@ -48,10 +50,8 @@ class Block {
   }
 
   uncover() {
-    if (!this.flag) {
-      this.hidden = false;
-      this.flag = false;
-    }
+    this.hidden = false;
+    this.flag = false;
   }
 
   putFlag() {
@@ -66,10 +66,10 @@ const BOARD_WIDTH = 9;
 const BOMB_COUNT = 10;
 const CHEAT = false;
 
-const board = {
+const playboard = {
   position: {
-    x: 13,
-    y: 70
+    x: 8,
+    y: 75
   },
   bombs: BOMB_COUNT,
   height: BOARD_HEIGHT,
@@ -102,6 +102,18 @@ const board = {
           this.cells[cellX][cellY].value = bombCount;
       }
     }
+  },
+
+  getFlagsLeft() {
+    let flagCount = 0;
+    for (let i=0; i < this.height; i ++) {
+      for (let j=0; j < this.width; j ++) {
+        if (this.cells[i][j].flag) {
+          flagCount++;
+        }
+      }
+    }
+    return this.bombs - flagCount;
   },
 
   getSurroundingCells(cellX, cellY) {
@@ -144,7 +156,9 @@ const board = {
 
   uncoverCell() {
     const [cellX, cellY] = this.getHoveredCell();
-    this.explodeCell(cellX, cellY);
+    if (!this.cells[cellX][cellY].flag){
+      this.explodeCell(cellX, cellY);
+    }
   },
 
   explodeCell(cellX, cellY) {
@@ -161,8 +175,74 @@ const board = {
 
 }
 
-board.initializeBoard();
+const scoreBoard = {
+  position: {
+    x: 5,
+    y: 5
+  },
+  timerStart: new Date(),
+  border: 8,
+  emoji: '🙂',
 
+  reset() {
+    this.timerStart = new Date();
+  },
+
+  getElapsedSeconds() {
+    const endTime = new Date();
+    let timeDiff = endTime - this.timerStart; //in ms
+    timeDiff /= 1000;
+    return Math.round(timeDiff);
+  },
+
+  represent(bombCount) {
+    cc.fillStyle = Colors.lightGray;
+    cc.fillRect(this.position.x, this.position.y, 275, 60);
+    paintCounter(bombCount, this.position.x + this.border, this.position.y + this.border);
+    paintCounter(this.getElapsedSeconds(), this.position.x + 180 - this.border, this.position.y + this.border);
+    paintBigButton(this.emoji, this.position.x + 115, this.position.y + this.border)
+  },
+
+}
+
+const game = {
+  newGame() {
+    playboard.initializeBoard();
+    scoreBoard.reset();
+  },
+
+  represent() {
+    playboard.represent();
+    scoreBoard.represent(playboard.getFlagsLeft());
+  }
+}
+
+function paintCounter(value, x, y) {
+  cc.fillStyle = 'black';
+    cc.fillRect(x, y, 95, 45);
+    cc.font = "bolder 50px Courier New";
+    cc.fillStyle = "red";
+    cc.fillText(String(value).padStart(3, '0'), x + 2, y + 38);
+}
+
+function paintBigButton(emoji, x, y) {
+  const buttonSize = 45;
+  cc.fillStyle = Colors.white;
+  cc.fillRect(x, y, buttonSize, buttonSize);
+  
+  cc.fillStyle = Colors.darkGray;
+  cc.beginPath();
+  cc.moveTo(x + buttonSize, y);
+  cc.lineTo(x, y + buttonSize);
+  cc.lineTo(x + buttonSize, y + buttonSize);
+  cc.closePath();
+  cc.fill();
+
+  cc.fillStyle = Colors.lightGray;
+  cc.fillRect(x+3, y+3, buttonSize - 6, buttonSize - 6);
+  cc.font = "bolder 35px verdana";
+  cc.fillText(emoji, x + 5, y + buttonSize - 9);
+}
 
 function paintBlock(x, y, value, hidden, flag) {
   if (hidden) {
@@ -231,14 +311,14 @@ function paintBlockValue(x, y, value) {
 }
 
 function update() {
-    cc.fillStyle = 'lightblue';
+    cc.fillStyle = '#f5f5f5';
     cc.fillRect(0, 0, c.width, c.height);
     paintBlock(100, 100, 0, false, false);
     paintBlock(100, 140, 1, false, true);
     paintBlock(140, 140, 2, false, false);
     paintBlock(140, 100, 0, true, true);
 
-    board.represent();
+    game.represent();
 
 }
 
