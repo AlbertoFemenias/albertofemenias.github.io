@@ -85,12 +85,10 @@ const board = {
     }
   },
 
-  getSurroundingCells(cellX, cellY, cross=false) {
+  getSurroundingCells(cellX, cellY) {
     const surroundingCells = [];
     for (let i=-1; i<=1; i++) {
       for (let j=-1; j<=1; j++) {
-        if (cross && (i==j || (i+j)==0))
-          continue;
         const sX = cellX + i;
         const sY = cellY + j;
         if (-1<sX && sX<this.width && -1<sY && sY<this.height) {
@@ -129,9 +127,9 @@ const board = {
     this.cells[cellX][cellY].uncover();
     if (this.cells[cellX][cellY].value !== 0)
       return 
-      for (const cellCoords of this.getSurroundingCells(cellX, cellY, true)) {
+      for (const cellCoords of this.getSurroundingCells(cellX, cellY)) {
         const [sX, sY] = cellCoords;
-      if (this.cells[sX][sY].value === 0 && this.cells[sX][sY].hidden)
+      if (this.cells[sX][sY].hidden)
         this.explodeCell(sX, sY);
     }
   }
