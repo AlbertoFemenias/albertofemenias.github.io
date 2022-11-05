@@ -3,9 +3,22 @@ window.onload = ()=> {
     cc = c.getContext('2d');
     cc.font = '40px Arial';
     setInterval(update, 0);
-    document.addEventListener('keydown',keyDown);
-    document.addEventListener('keyup',keyBack);
+    c.addEventListener('mousemove', movemouse);
+    c.addEventListener('mousedown', clickado);
+}
 
+var mouse = {
+  x: 0,
+  y: 0
+}
+
+function movemouse(evt){
+  mouse.x=evt.pageX-parseInt(c.offsetLeft, 10);
+  mouse.y=evt.pageY-parseInt(c.offsetTop, 10);
+}
+
+function clickado(){
+  return board.uncover();
 }
 
 
@@ -15,40 +28,104 @@ const Colors = {
     white: '#ffffff'
 }
 
+class Block {
+  constructor(value=0, hidden=true) {
+    this.value = value;
+    this.hidden = hidden;
+    this.flag = false;
+  }
+
+  uncover() {
+    this.hidden = false;
+    this.flag = false;
+  }
+}
+
 const BLOCK_SIZE = 30;
+const BOARD_HEIGHT = 9;
+const BOARD_WIDTH = 9;
+const BOMB_COUNT = 10;
+
 const board = {
   position: {
     x: 13,
-    y: 39
+    y: 70
   },
-  height: 9,
-  width: 9,
-  cells: [],
+  bombs: BOMB_COUNT,
+  height: BOARD_HEIGHT,
+  width: BOARD_WIDTH,
+  cells: null,
 
   initializeBoard() {
-    board.cells = new Array(this.height)
-    for (let i=0; i < board.width; i ++) {
-      board.cells[i] = Array(board.width).fill(0);
+    this.cells = new Array(this.height)
+    for (let i=0; i < this.width; i ++) {
+      this.cells[i] = Array.from({ length: this.height }, () => new Block());
     }
+    for (let i=this.bombs; i--;) {
+      const cellX = Math.floor(Math.random()*this.width);
+      const cellY = Math.floor(Math.random()*this.height);
+      this.cells[cellX][cellY].value = -1;
+    }
+    this.computeCellBombCount();
+  },
+
+  computeCellBombCount() {
+    for (let cellX=0; cellX<this.height; cellX++) {
+      for (let cellY=0; cellY<this.width; cellY++) {
+        let bombCount = 0;
+        for (const cell of this.getSurroundingCells(cellX, cellY)) {
+          if (cell.value === -1)
+            bombCount++; 
+        }
+        if (this.cells[cellX][cellY].value !== -1)
+          this.cells[cellX][cellY].value = bombCount;
+      }
+    }
+  },
+
+  getSurroundingCells(cellX, cellY) {
+    const surroundingCells = [];
+    for (let i=-1; i<=1; i++) {
+      for (let j=-1; j<=1; j++) {
+        const sX = cellX + i;
+        const sY = cellY + j;
+        if (-1<sX && sX<this.width && -1<sY && sY<this.height) {
+          surroundingCells.push(this.cells[cellX+i][cellY+j]);
+        }
+      }
+    }
+    return surroundingCells;
   },
 
   represent() {
-    board.cells[0][5] = 1;
-    board.cells[0][6] = 2;
-    board.cells[0][7] = 3;
-    board.cells[0][8] = 4;
-    board.cells[1][1] = -1;
-    board.cells[2][2] = 'k';
-    cc.fillStyle = Colors.darkGray;
+    /*board.cells[0][5] = {value: 1, hidden: false, flag: false};
+    board.cells[0][6] = {value: 2, hidden: false, flag: false};
+    board.cells[0][7] = {value: 3, hidden: false, flag: false};
+    board.cells[0][8] = {value: 4, hidden: false, flag: false};
+    board.cells[1][1] = {value: 5, hidden: false, flag: false};
+    board.cells[2][2] = {value: -1, hidden: false, flag: false};
+    board.cells[3][3] = {value: 9, hidden: true, flag: true}; */
+    cc.fillStyle = Colors.lightGray;
     cc.fillRect(this.position.x - 3, this.position.y - 3, BLOCK_SIZE * this.height + 6, BLOCK_SIZE * this.width + 6);
 
-    for (let i=0; i < board.height; i ++) {
-      for (let j=0; j < board.width; j ++) {
+    for (let i=0; i < this.height; i ++) {
+      for (let j=0; j < this.width; j ++) {
         blockX = this.position.x + i*BLOCK_SIZE;
         blockY = this.position.y + j*BLOCK_SIZE;
-        paintBlock(blockX, blockY, board.cells[i][j], false);
+        paintBlock(blockX, blockY, this.cells[i][j].value, this.cells[i][j].hidden, this.cells[i][j].flag);
       }
     }
+  },
+
+  getHoveredCell() {
+    let cellX = Math.floor((mouse.x - this.position.x) / BLOCK_SIZE);
+    let cellY = Math.floor((mouse.y - this.position.y) / BLOCK_SIZE);
+    return this.cells[cellX][cellY];
+  },
+
+  uncover() {
+    const cell = this.getHoveredCell();
+    cell.uncover();
   }
 
 
@@ -57,7 +134,7 @@ const board = {
 board.initializeBoard();
 
 
-function paintBlock(x, y, value, hidden) {
+function paintBlock(x, y, value, hidden, flag) {
   if (hidden) {
     cc.fillStyle = Colors.white;
     cc.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE);
@@ -72,6 +149,10 @@ function paintBlock(x, y, value, hidden) {
 
     cc.fillStyle = Colors.lightGray;
     cc.fillRect(x+3, y+3, BLOCK_SIZE - 6, BLOCK_SIZE - 6);
+    if (flag) {
+      cc.font = "bolder 20px verdana";
+      cc.fillText('🏴‍☠️', x + 5, y + BLOCK_SIZE - 8);
+    }
   } else {
     cc.fillStyle = Colors.darkGray;
     cc.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE);
@@ -86,7 +167,6 @@ function paintBlockValue(x, y, value) {
   switch (value) {
     case -1:
       cc.font = "bolder 15px verdana";
-      cc.fillStyle = "blue";
       cc.fillText('💣', x, y - 3);
       break;
     case 0:
@@ -109,7 +189,7 @@ function paintBlockValue(x, y, value) {
     case 7:
     case 8:  
       cc.fillStyle = "darkred";
-      cc.fillText("4", x, y);
+      cc.fillText(value.toString(), x, y);
       break;
     default:
       cc.fillStyle = "yellow";
@@ -121,10 +201,10 @@ function paintBlockValue(x, y, value) {
 function update() {
     cc.fillStyle = 'lightblue';
     cc.fillRect(0, 0, c.width, c.height);
-    paintBlock(100, 100, 0, false);
-    paintBlock(100, 140, 1, false);
-    paintBlock(140, 140, 2, false);
-    paintBlock(140, 100, 0, true);
+    paintBlock(100, 100, 0, false, false);
+    paintBlock(100, 140, 1, false, true);
+    paintBlock(140, 140, 2, false, false);
+    paintBlock(140, 100, 0, true, true);
 
     board.represent();
 

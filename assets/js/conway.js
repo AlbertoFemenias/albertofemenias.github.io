@@ -19,7 +19,6 @@
     setInterval(update, 10);
     c.addEventListener('mousemove', movemouse);
     c.addEventListener('mousedown', clickado);
-
   }
 
   inputspeed.oninput = function() {
@@ -44,7 +43,6 @@
         }
       }
     }
-
   }
 
   function paintSquare (x,y,color){
@@ -162,5 +160,4 @@
       if (play)
         lifeCycle();
     }
-
-}
+  }
