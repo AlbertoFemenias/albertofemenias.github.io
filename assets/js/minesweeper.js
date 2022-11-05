@@ -4,7 +4,14 @@ window.onload = ()=> {
     cc.font = '40px Arial';
     setInterval(update, 0);
     c.addEventListener('mousemove', movemouse);
-    c.addEventListener('mousedown', clickado);
+    c.addEventListener('contextmenu', rightClick); 
+
+    c.addEventListener('click', leftClick);
+    
+    /*c.addEventListener('contextmenu', function(e) {  
+      e.preventDefault();
+      board.uncoverCell();
+    });*/
 }
 
 var mouse = {
@@ -17,8 +24,13 @@ function movemouse(evt){
   mouse.y=evt.pageY-parseInt(c.offsetTop, 10);
 }
 
-function clickado(){
+function leftClick(){
   return board.uncoverCell();
+}
+
+function rightClick(evt){
+  evt.preventDefault();
+  return board.flagCell();
 }
 
 
@@ -36,8 +48,15 @@ class Block {
   }
 
   uncover() {
-    this.hidden = false;
-    this.flag = false;
+    if (!this.flag) {
+      this.hidden = false;
+      this.flag = false;
+    }
+  }
+
+  putFlag() {
+    if (this.hidden)
+      this.flag = !this.flag;
   }
 }
 
@@ -45,7 +64,7 @@ const BLOCK_SIZE = 30;
 const BOARD_HEIGHT = 9;
 const BOARD_WIDTH = 9;
 const BOMB_COUNT = 10;
-const CHEAT = true;
+const CHEAT = false;
 
 const board = {
   position: {
@@ -116,6 +135,11 @@ const board = {
     let cellX = Math.floor((mouse.x - this.position.x) / BLOCK_SIZE);
     let cellY = Math.floor((mouse.y - this.position.y) / BLOCK_SIZE);
     return [cellX, cellY];
+  },
+
+  flagCell() {
+    const [cellX, cellY] = this.getHoveredCell();
+    this.cells[cellX][cellY].putFlag();
   },
 
   uncoverCell() {
