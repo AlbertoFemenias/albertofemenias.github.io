@@ -95,7 +95,7 @@ const playBoard = {
     this.computeCellBombCount();
   },
 
-  allBombsFlagged() {
+  getBombsFlagged() {
     let bombsFlagged = 0;
     for (let cellX=0; cellX<this.height; cellX++) {
       for (let cellY=0; cellY<this.width; cellY++) {
@@ -103,7 +103,18 @@ const playBoard = {
           bombsFlagged++; 
       }
     }
-    return bombsFlagged === this.bombs
+    return bombsFlagged;
+  },
+
+  getHiddenCells() {
+    let hiddenCells = 0;
+    for (let cellX=0; cellX<this.height; cellX++) {
+      for (let cellY=0; cellY<this.width; cellY++) {
+        if (this.cells[cellX][cellY].hidden)
+        hiddenCells++; 
+      }
+    }
+    return hiddenCells;
   },
 
   computeCellBombCount() {
@@ -303,7 +314,7 @@ const game = {
   },
 
   checkState() {
-    if (playBoard.allBombsFlagged() && playBoard.getFlagsLeft() === 0) {
+    if (playBoard.getBombsFlagged() === playBoard.getHiddenCells() && playBoard.getBombsFlagged() === playBoard.bombs) {
       this.state = 'gameWon';
       scoreBoard.state = this.state;
     }
