@@ -27,12 +27,12 @@ function movemouse(evt){
 }
 
 function leftClick(){
-  return playboard.uncoverCell();
+  game.mouseLeftClick(mouse.x, mouse.y);
 }
 
 function rightClick(evt){
   evt.preventDefault();
-  return playboard.flagCell();
+  game.mouseRightClick(mouse.x, mouse.y);
 }
 
 
@@ -63,10 +63,10 @@ class Block {
 const BLOCK_SIZE = 30;
 const BOARD_HEIGHT = 9;
 const BOARD_WIDTH = 9;
-const BOMB_COUNT = 10;
-const CHEAT = false;
+const BOMB_COUNT = 3;
+const CHEAT = true;
 
-const playboard = {
+const playBoard = {
   position: {
     x: 8,
     y: 75
@@ -81,12 +81,29 @@ const playboard = {
     for (let i=0; i < this.width; i ++) {
       this.cells[i] = Array.from({ length: this.height }, () => new Block());
     }
-    for (let i=this.bombs; i--;) {
+
+    let bombsToPlace = this.bombs
+    while (bombsToPlace > 0) {
       const cellX = Math.floor(Math.random()*this.width);
       const cellY = Math.floor(Math.random()*this.height);
-      this.cells[cellX][cellY].value = -1;
+      if (this.cells[cellX][cellY].value !== -1) {
+        this.cells[cellX][cellY].value = -1;
+        bombsToPlace--;
+      }
     }
+
     this.computeCellBombCount();
+  },
+
+  allBombsFlagged() {
+    let bombsFlagged = 0;
+    for (let cellX=0; cellX<this.height; cellX++) {
+      for (let cellY=0; cellY<this.width; cellY++) {
+        if (this.cells[cellX][cellY].value === -1 && this.cells[cellX][cellY].flag)
+          bombsFlagged++; 
+      }
+    }
+    return bombsFlagged === this.bombs
   },
 
   computeCellBombCount() {
@@ -143,19 +160,32 @@ const playboard = {
     }
   },
 
-  getHoveredCell() {
-    let cellX = Math.floor((mouse.x - this.position.x) / BLOCK_SIZE);
-    let cellY = Math.floor((mouse.y - this.position.y) / BLOCK_SIZE);
+  mouseIsOverBoard(mouseX, mouseY) {
+    if (mouseX < this.position.x)
+      return false;
+    if (mouseY < this.position.y)
+      return false;
+    if (mouseX > this.position.x+this.width*BLOCK_SIZE)
+      return false;
+    if (mouseY > this.position.y+this.height*BLOCK_SIZE)
+      return false;
+    
+    return true;
+  },
+
+  getHoveredCell(mouseX, mouseY) {
+    let cellX = Math.floor((mouseX - this.position.x) / BLOCK_SIZE);
+    let cellY = Math.floor((mouseY - this.position.y) / BLOCK_SIZE);
     return [cellX, cellY];
   },
 
-  flagCell() {
-    const [cellX, cellY] = this.getHoveredCell();
+  flagCell(mouseX, mouseY) {
+    const [cellX, cellY] = this.getHoveredCell(mouseX, mouseY);
     this.cells[cellX][cellY].putFlag();
   },
 
-  uncoverCell() {
-    const [cellX, cellY] = this.getHoveredCell();
+  uncoverCell(mouseX, mouseY) {
+    const [cellX, cellY] = this.getHoveredCell(mouseX, mouseY);
     if (!this.cells[cellX][cellY].flag){
       this.explodeCell(cellX, cellY);
     }
@@ -171,8 +201,6 @@ const playboard = {
         this.explodeCell(sX, sY);
     }
   }
-
-
 }
 
 const scoreBoard = {
@@ -180,69 +208,133 @@ const scoreBoard = {
     x: 5,
     y: 5
   },
+  elapsedTime: 0,
+  state: 'gameOn',
   timerStart: new Date(),
   border: 8,
-  emoji: '🙂',
+  button: {
+    emojis: {
+      gameOn: '🙂',
+      gameWon: '😎',
+    },
+    x: 5 + 115,
+    y: 5 + 8,
+    size: 45
+  },
 
   reset() {
     this.timerStart = new Date();
+    this.state = 'gameOn';
   },
 
   getElapsedSeconds() {
     const endTime = new Date();
     let timeDiff = endTime - this.timerStart; //in ms
     timeDiff /= 1000;
-    return Math.round(timeDiff);
+    this.elapsedTime = Math.round(timeDiff)
+    return this.elapsedTime;
+  },
+
+  buttonPressed(mouseX, mouseY) {
+    if (mouseX > this.button.x && mouseX < this.button.x+this.button.size) {
+      if (mouseY > this.button.y && mouseY < this.button.y+this.button.size)
+        return true;
+    }
+    return false;
   },
 
   represent(bombCount) {
     cc.fillStyle = Colors.lightGray;
     cc.fillRect(this.position.x, this.position.y, 275, 60);
-    paintCounter(bombCount, this.position.x + this.border, this.position.y + this.border);
-    paintCounter(this.getElapsedSeconds(), this.position.x + 180 - this.border, this.position.y + this.border);
-    paintBigButton(this.emoji, this.position.x + 115, this.position.y + this.border)
+    this.paintCounter(bombCount, this.position.x + this.border, this.position.y + this.border);
+    if (this.state === 'gameOn') {
+      this.paintCounter(this.getElapsedSeconds(), this.position.x + 180 - this.border, this.position.y + this.border);
+      this.paintBigButton(!this.getElapsedSeconds(), this.button.emojis.gameOn, this.button.x, this.button.y, this.button.size)  
+    } else if (this.state === 'gameWon'){
+      this.paintCounter(this.elapsedTime, this.position.x + 180 - this.border, this.position.y + this.border);
+      this.paintBigButton(false, this.button.emojis.gameWon, this.button.x, this.button.y, this.button.size)
+    }  
+    },
+
+  paintCounter(value, x, y) {
+    cc.fillStyle = 'black';
+      cc.fillRect(x, y, 95, 45);
+      cc.font = "bolder 50px Courier New";
+      cc.fillStyle = "red";
+      cc.fillText(String(value).padStart(3, '0'), x + 2, y + 38);
   },
+  
+  paintBigButton(clicked, emoji, x, y, size) {
+    cc.fillStyle = Colors.white;
+    if (clicked)
+      cc.fillStyle = Colors.darkGray;
+    cc.fillRect(x, y, size, size);
+    
+    cc.fillStyle = Colors.darkGray;
+    if (clicked)
+      cc.fillStyle = Colors.white;
+    cc.beginPath();
+    cc.moveTo(x + size, y);
+    cc.lineTo(x, y + size);
+    cc.lineTo(x + size, y + size);
+    cc.closePath();
+    cc.fill();
+  
+    cc.fillStyle = Colors.lightGray;
+    cc.fillRect(x+3, y+3, size - 6, size - 6);
+    if (clicked) {
+      cc.font = "bolder 33px verdana";
+      cc.fillText(emoji, x + 6, y + size - 8);
+    } else {
+      cc.font = "bolder 35px verdana";
+      cc.fillText(emoji, x + 5, y + size - 9);
+    }
+  }
 
 }
 
 const game = {
+  state: 'gameOn',
+
   newGame() {
-    playboard.initializeBoard();
+    this.state = 'gameOn';
+    playBoard.initializeBoard();
     scoreBoard.reset();
   },
 
+  checkState() {
+    if (playBoard.allBombsFlagged() && playBoard.getFlagsLeft() === 0) {
+      this.state = 'gameWon';
+      scoreBoard.state = this.state;
+    }
+  },
+
+  gameOn () {
+    return this.state === 'gameOn';
+  },
+
   represent() {
-    playboard.represent();
-    scoreBoard.represent(playboard.getFlagsLeft());
-  }
+    playBoard.represent();
+    scoreBoard.represent(playBoard.getFlagsLeft());
+  },
+
+  mouseLeftClick(mouseX, mouseY) {
+    if (scoreBoard.buttonPressed(mouseX, mouseY)) {
+      this.newGame();
+    }
+    if (this.gameOn() && playBoard.mouseIsOverBoard(mouseX, mouseY)) {
+      playBoard.uncoverCell(mouseX, mouseY);
+    }
+  },
+
+  mouseRightClick(mouseX, mouseY) {
+    if (this.gameOn() &&  playBoard.mouseIsOverBoard(mouseX, mouseY)) {
+      playBoard.flagCell(mouseX, mouseY);
+    }
+  },
+
 }
 
-function paintCounter(value, x, y) {
-  cc.fillStyle = 'black';
-    cc.fillRect(x, y, 95, 45);
-    cc.font = "bolder 50px Courier New";
-    cc.fillStyle = "red";
-    cc.fillText(String(value).padStart(3, '0'), x + 2, y + 38);
-}
-
-function paintBigButton(emoji, x, y) {
-  const buttonSize = 45;
-  cc.fillStyle = Colors.white;
-  cc.fillRect(x, y, buttonSize, buttonSize);
-  
-  cc.fillStyle = Colors.darkGray;
-  cc.beginPath();
-  cc.moveTo(x + buttonSize, y);
-  cc.lineTo(x, y + buttonSize);
-  cc.lineTo(x + buttonSize, y + buttonSize);
-  cc.closePath();
-  cc.fill();
-
-  cc.fillStyle = Colors.lightGray;
-  cc.fillRect(x+3, y+3, buttonSize - 6, buttonSize - 6);
-  cc.font = "bolder 35px verdana";
-  cc.fillText(emoji, x + 5, y + buttonSize - 9);
-}
 
 function paintBlock(x, y, value, hidden, flag) {
   if (hidden) {
@@ -318,6 +410,7 @@ function update() {
     paintBlock(140, 140, 2, false, false);
     paintBlock(140, 100, 0, true, true);
 
+    game.checkState();
     game.represent();
 
 }
